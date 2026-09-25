@@ -1,0 +1,41 @@
+# Optional: run backend + MySQL together for local development.
+#   docker compose up --build
+# The frontend still runs separately with `npm run dev` (frontend/).
+version: "3.8"
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ecommerce_db
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports: ["3306:3306"]
+    volumes: ["mysql-data:/var/lib/mysql"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports: ["8080:8080"]
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/ecommerce_db
+      DB_USER: root
+      DB_PASSWORD: rootpass
+      JWT_SECRET: local-docker-secret-change-me-please-1234567890
+      ADMIN_EMAIL: admin@shop.com
+      ADMIN_PASSWORD: ChangeMe@123
+      CORS_ORIGINS: http://localhost:5173
+      SEED_DEMO_DATA: "true"
+      RAZORPAY_KEY_ID: ""
+      RAZORPAY_KEY_SECRET: ""
+      RAZORPAY_WEBHOOK_SECRET: ""
+
+volumes:
+  mysql-data:

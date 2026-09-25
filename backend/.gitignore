@@ -1,0 +1,7 @@
+target/
+*.class
+.idea/
+*.iml
+.env
+application-local.properties
+HELP.md
