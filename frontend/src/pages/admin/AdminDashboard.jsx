@@ -32,7 +32,7 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      <h2>Orders by status</h2>
+      <h2>Orders by status </h2>
       <div className="chips">
         {Object.entries(stats.ordersByStatus).map(([s, n]) => (
           <Link key={s} to={`/admin/orders?status=${s}`} className="chip">{s.toLowerCase()}: {n}</Link>
