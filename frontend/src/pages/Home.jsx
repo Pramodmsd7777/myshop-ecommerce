@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import api, { errorMessage } from '../api/axios';
 import ProductCard from '../components/ProductCard';
 
+// Always returns an array, even if the server sends an object, HTML or nothing
+const toArray = (value) => (Array.isArray(value) ? value : []);
+
 export default function Home() {
   const [latest, setLatest] = useState([]);
   const [deals, setDeals] = useState([]);
@@ -17,9 +20,9 @@ export default function Home() {
       api.get('/categories'),
     ])
       .then(([latestRes, dealsRes, catRes]) => {
-        setLatest(latestRes.data.content);
-        setDeals(dealsRes.data.content);
-        setCategories(catRes.data);
+        setLatest(toArray(latestRes.data?.content));
+        setDeals(toArray(dealsRes.data?.content));
+        setCategories(toArray(catRes.data));
       })
       .catch((e) => setError(errorMessage(e)))
       .finally(() => setLoading(false));
@@ -44,7 +47,7 @@ export default function Home() {
           <div className="cats">
             {categories.map((c) => (
               <Link key={c.id} to={`/products?categoryId=${c.id}`} className="cat">
-                <i>{c.name.charAt(0)}</i>
+                <i>{c.name?.charAt(0)}</i>
                 {c.name}
               </Link>
             ))}
@@ -72,3 +75,4 @@ export default function Home() {
     </>
   );
 }
+

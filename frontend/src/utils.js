@@ -4,6 +4,11 @@ export const formatPrice = (n) =>
 export const formatDate = (iso) =>
   new Date(iso).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
 
+export const toList = (data) =>
+  Array.isArray(data) ? data
+  : Array.isArray(data?.content) ? data.content
+  : [];
+
 export function loadRazorpay() {
   return new Promise((resolve) => {
     if (window.Razorpay) return resolve(true);
