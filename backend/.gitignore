@@ -4,4 +4,5 @@ target/
 *.iml
 .env
 application-local.properties
+application.properties
 HELP.md
