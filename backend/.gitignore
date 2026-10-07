@@ -1,8 +1,37 @@
+# Build & Dependencies
 target/
 *.class
+*.jar
+!.mvnw
+.mvn/
+
+# IDE
 .idea/
+.vscode/
 *.iml
+*.iws
+*.ipr
+.DS_Store
+.classpath
+.project
+.settings/
+*.swp
+*.swo
+
+# Environment & Secrets (CRITICAL - Never commit)
 .env
+.env.local
+.env.*.local
 application-local.properties
 application.properties
-HELP.md
+application-dev.properties
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Other
+*.md.bak
+.history/
+node_modules/
